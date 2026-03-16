@@ -1,0 +1,25 @@
+<?php
+
+    class Database {
+
+        private $host="localhost";
+        private $db="binarycity_task";
+        private $user="root";
+        private $pass="";
+
+        public function connect(){
+
+            $conn = new mysqli($this->host, $this->user, $this->pass, $this->db);
+
+            if($conn->connect_error){
+                die("Database connection failed");
+            }
+
+            return $conn;
+        }
+    }
+
+    $db = new Database();
+    $conn = $db->connect();
+
+?>
