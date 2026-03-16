@@ -9,8 +9,8 @@
     }
 
     // $fullname = $first_name . " " . $last_name;
-
-    function generateClientCode($first_name, $last_name, $conn){
+    //Auto generates client code using first name (first 3 letters) and 3 digits (using unique numbers from database)
+    function generateClientCode($first_name, $conn){
         $words = explode(" ",strtoupper($first_name));
         $letters = "";
 
@@ -28,14 +28,14 @@
         return $letters.$num;
     }
 
-    $client_code = generateClientCode($first_name, $last_name, $conn);
+    $client_code = generateClientCode($first_name, $conn); //returns auto generated client code
     $active = 1;
     $stmt = $conn->prepare("INSERT INTO clients (client_code, first_name,last_name, active) VALUES(?,?,?,?)");
     $stmt->bind_param("ssss", $client_code, $first_name, $last_name, $active);
 
     if($stmt->execute()){
-        header("Location: ../?client_status=success");
+        header("Location: ../?client_status=success"); //returns with success message
     }else{
-        header("Location: ../?client_status=error");
+        header("Location: ../?client_status=error"); //returns with error message
     }
 ?>
