@@ -1,4 +1,4 @@
-
+//Controls the Tabs (Clients and Contacts)
 function showTab(tab){
     document.querySelectorAll(".tab").forEach(t=>t.style.display="none");
     document.getElementById(tab).style.display="block";
