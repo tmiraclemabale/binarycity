@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<?php include "./db/binarycity_db.php"; ?>
+<?= include "./db/binarycity_db.php"; ?>
 <html>
     <head>
         <title>Client Management</title>
         <link rel="stylesheet" href="./css/style.css">
         <script>
+            //Confirms with user if they want to unlink client with contact
             function confirmUnlink(){
                 return confirm("Are you sure you want to unlink this client from selected contact?");
             }
@@ -40,6 +41,7 @@
                 </form>
                 <h4>Client List</h4>
                 <?php
+                    //Returned messages
                     if(isset($_GET['client_status']) && $_GET['client_status'] == "success"){
                         echo "<p style='color:green'>Client created successfully!</p>";
                     }else if(isset($_GET['client_status']) && $_GET['client_status'] == "error"){
@@ -59,13 +61,9 @@
                     <!-- <tbody id="clientTable"> -->
                     <tbody id="clientTable">
                         <?php
-
-                            // $sql = "SELECT c.id, c.client_code, c.first_name, c.last_name, COUNT(cc.contact_id) as contacts FROM clients c LEFT JOIN clients_contact cc ON c.id = cc.client_id GROUP BY c.id ORDER BY c.first_name ASC";
                             $sql = "SELECT c.id, c.first_name, c.last_name, c.client_code, ct.id AS contact_id, COUNT(ct.id) AS contact_count FROM clients c LEFT JOIN contacts ct ON ct.client_id = c.id GROUP BY c.id ORDER BY c.first_name ASC";
 
-                            $res=$conn->query($sql);
-
-                            $data=[];
+                            $res = $conn->query($sql);
                             
                             if($res->num_rows > 0){;
                                 while($row=$res->fetch_assoc()){
@@ -98,6 +96,7 @@
                                 <select name="client_id" id="clientSelect" required>
                                     <option value="">--Choose Client--</option>
                                     <?php
+                                        //fetches id from clients table, displays full names to user
                                         $client_sel = $conn->query("SELECT id, CONCAT(last_name,' ',first_name) AS full_name FROM clients ORDER BY last_name ASC");
                                         while($cl_row = $client_sel->fetch_assoc()){
                                             echo "<option value='{$cl_row['id']}'>{$cl_row['full_name']}</option>";
@@ -115,6 +114,7 @@
                 </form>
                 <h4>Contact List</h4>
                 <?php
+                    //Returned messages
                     if(isset($_GET['contact_status']) && $_GET['contact_status'] == "success"){
                         echo "<p style='color:green'>Contact created successfully!</p>";
                     }else if(isset($_GET['contact_status']) && $_GET['contact_status'] == "error"){
